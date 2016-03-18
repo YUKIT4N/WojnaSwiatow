@@ -15,23 +15,25 @@ public class WojnaSwiatow extends Canvas{
 	
 public static final int SZEROKOSC = 800;
 public static final int WYSOKOSC = 600;
+public BufferedImage potworek = null;
 BufferedImage potworek;
-public WojnaSwiatow() {
-JFrame okno = new JFrame(".:Wojna Swiatow:.");
-JPanel panel = (JPanel)okno.getContentPane();
-setBounds(0,0,SZEROKOSC,WYSOKOSC);
-panel.setPreferredSize(new Dimension(SZEROKOSC,WYSOKOSC));
-panel.setLayout(null);
-panel.add(this);
-okno.setBounds(0,0,SZEROKOSC,WYSOKOSC);
-okno.setVisible(true);
-okno.addWindowListener( new WindowAdapter() {
-public void windowClosing(WindowEvent e) {
+	public WojnaSwiatow() {
+			JFrame okno = new JFrame(".:Wojna Swiatow:.");
+			JPanel panel = (JPanel)okno.getContentPane();
+			setBounds(0,0,SZEROKOSC,WYSOKOSC);
+			panel.setPreferredSize(new Dimension(SZEROKOSC,WYSOKOSC));
+			panel.setLayout(null);
+			panel.add(this);
+			okno.setBounds(0,0,SZEROKOSC,WYSOKOSC);
+			okno.setVisible(true);
+			okno.addWindowListener( new WindowAdapter() {
+	public void windowClosing(WindowEvent e) {
 System.exit(0);
 }
 });
 }
 public void paint(Graphics g){
+	if (potworek==null)
 	potworek = loadImage("img/potworek.jpg");
 	g.drawImage(potworek, 40, 40,this);
 }
