@@ -26,8 +26,8 @@ public WojnaSwiatow() {
 	okno.setBounds(0,0,Stage.SZEROKOSC,Stage.WYSOKOSC);
 	okno.setVisible(true);
 	okno.addWindowListener( new WindowAdapter() {
-	public void windowClosing(WindowEvent e) {
-	System.exit(0);
+		public void windowClosing(WindowEvent e) {
+			System.exit(0);
 		}
 	});
 	okno.setResizable(false);
@@ -38,38 +38,38 @@ public WojnaSwiatow() {
 public void initWorld() {
 	actors = new ArrayList();
 	for (int i = 0; i < 10; i++){
-	Monster m = new Monster(this);
-	m.setX( (int)(Math.random()*Stage.SZEROKOSC) );
-	m.setY( i*20 );
-	m.setVx( (int)(Math.random()*3)+1 );
-	actors.add(m);
+		Monster m = new Monster(this);
+		m.setX( (int)(Math.random()*Stage.SZEROKOSC) );
+		m.setY( i*20 );
+		m.setVx( (int)(Math.random()*3)+1 );
+		actors.add(m);
 	}
-	}
-	public void paintWorld() {
+}
+public void paintWorld() {
 	Graphics2D g = (Graphics2D)strategia.getDrawGraphics();
 	g.setColor(Color.black);
 	g.fillRect(0,0,getWidth(),getHeight());
 	for (int i = 0; i < actors.size(); i++) {
-	Actor m = (Actor)actors.get(i);
-	m.paint(g);
+		Actor m = (Actor)actors.get(i);
+		m.paint(g,i);
 	}
 	g.setColor(Color.white);
 	if (usedTime > 0)
-	g.drawString(String.valueOf(1000/usedTime)+" fps",0,Stage.WYSOKOSC-50);
+		g.drawString(String.valueOf(1000/usedTime)+" fps",0,Stage.WYSOKOSC-50);
 	else
-	g.drawString("--- fps",0,Stage.WYSOKOSC-50);
-	strategia.show();
-	}
-	public void updateWorld() {
+		g.drawString("--- fps",0,Stage.WYSOKOSC-50);
+		strategia.show();
+}
+public void updateWorld() {
 	for (int i = 0; i < actors.size(); i++) {
-	Actor m = (Actor)actors.get(i);
-	m.act();
+		Actor m = (Actor)actors.get(i);
+		m.act();
 	}
-	}
-	public SpriteCache getSpriteCache() {
+}
+public SpriteCache getSpriteCache() {
 	return spriteCache;
-	}
-	public void game() {
+}
+public void game() {
 	usedTime=1000;
 	initWorld();
 
@@ -79,13 +79,14 @@ public void initWorld() {
 		paintWorld();
 		usedTime = System.currentTimeMillis()-startTime;
 		try {
-		Thread.sleep(Stage.SZYBKOSC);
-		} catch (InterruptedException e) {}
+			Thread.sleep(Stage.SZYBKOSC);
+		} 
+		catch (InterruptedException e) {}
+	}
+}
+public static void main(String[] args) {
+			WojnaSwiatow inv = new WojnaSwiatow();
+			inv.game();
 		}
-		}
-		public static void main(String[] args) {
-		WojnaSwiatow inv = new WojnaSwiatow();
-		inv.game();
-		}
-		}
+}
 //hello

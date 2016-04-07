@@ -10,7 +10,12 @@ sprites = new HashMap();
 }
 private BufferedImage loadImage(String url) {
 	try {
-		return ImageIO.read(new File(url));
+		
+		//url="img/potworek0.gif";
+		URL a=getClass().getResource(url);
+		System.out.println("ds");
+		File b = new File(url);
+		return ImageIO.read(b);
 	}
 	catch (Exception e) {
 		System.out.println("Przy otwieraniu " +" jako " + url);
