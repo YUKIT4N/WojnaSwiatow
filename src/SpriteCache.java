@@ -10,8 +10,6 @@ sprites = new HashMap();
 }
 private BufferedImage loadImage(String url) {
 	try {
-		
-		//url="img/potworek0.gif";
 		URL a=getClass().getResource(url);
 		System.out.println("ds");
 		File b = new File(url);
