@@ -18,8 +18,8 @@ public Actor(Stage stage) {
 	frameSpeed = 1;
 	t=0;
 }
-public void paint(Graphics2D g,int i){
-		//g.drawImage( spriteCache.getSprite(spriteName), x,y, stage );
+public void paint(Graphics2D g){
+		//g.drawImage( spriteCache.getSprite(spriteNames), x,y, stage );
 		g.drawImage( spriteCache.getSprite(spriteNames[currentFrame]), x,y, stage );
 	}
 public int getX() { return x; }

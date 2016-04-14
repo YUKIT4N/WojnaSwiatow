@@ -15,6 +15,7 @@ public class WojnaSwiatow extends Canvas implements Stage{
 	public BufferStrategy strategia;
 	private SpriteCache spriteCache;
 	private ArrayList actors;
+	private Player player;
 public WojnaSwiatow() {
 	spriteCache = new SpriteCache();
 	JFrame okno = new JFrame(".: Wojna Swiatow :.");
@@ -44,6 +45,10 @@ public void initWorld() {
 		m.setVx( (int)(Math.random()*3)+1 );
 		actors.add(m);
 	}
+	player = new Player(this);
+	player.setX(Stage.SZEROKOSC/2);
+	player.setY(Stage.WYSOKOSC - 2*player.getHeight());
+	player.setVx(5);
 }
 public void paintWorld() {
 	Graphics2D g = (Graphics2D)strategia.getDrawGraphics();
@@ -51,8 +56,9 @@ public void paintWorld() {
 	g.fillRect(0,0,getWidth(),getHeight());
 	for (int i = 0; i < actors.size(); i++) {
 		Actor m = (Actor)actors.get(i);
-		m.paint(g,i);
+		m.paint(g);
 	}
+	player.paint(g);
 	g.setColor(Color.white);
 	if (usedTime > 0)
 		g.drawString(String.valueOf(1000/usedTime)+" fps",0,Stage.WYSOKOSC-50);
@@ -65,6 +71,7 @@ public void updateWorld() {
 		Actor m = (Actor)actors.get(i);
 		m.act();
 	}
+	player.act();
 }
 public SpriteCache getSpriteCache() {
 	return spriteCache;

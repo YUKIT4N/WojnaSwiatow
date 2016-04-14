@@ -2,7 +2,8 @@ public class Monster extends Actor {
 protected int vx;
 public Monster(Stage stage) {
 	super(stage);
-	setSpriteNames( new String[] {"potworek1.gif","potworek0.gif"});
+	//setSpriteNames( new String[] {"potworek1.gif","potworek0.gif"});
+	setSpriteNames( new String[] {"dzik.png","stalag.png"});
 	setFrameSpeed(25);
 	}
 public void act() {
