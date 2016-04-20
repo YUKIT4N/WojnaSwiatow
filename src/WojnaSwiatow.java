@@ -9,8 +9,11 @@ import java.awt.event.WindowEvent;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.awt.Rectangle;
 
-public class WojnaSwiatow extends Canvas implements Stage{
+public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	public long usedTime;
 	public BufferStrategy strategia;
 	private SpriteCache spriteCache;
@@ -35,7 +38,19 @@ public WojnaSwiatow() {
 	createBufferStrategy(2);
 	strategia = getBufferStrategy();
 	requestFocus();
+	addKeyListener(this);
 }
+
+public void keyPressed(KeyEvent e) {
+	player. keyPressed(e);
+}
+
+public void keyReleased(KeyEvent e) {
+	player. keyReleased(e);
+}
+
+public void keyTyped(KeyEvent e) {}
+
 public void initWorld() {
 	actors = new ArrayList();
 	for (int i = 0; i < 10; i++){
@@ -48,7 +63,6 @@ public void initWorld() {
 	player = new Player(this);
 	player.setX(Stage.SZEROKOSC/2);
 	player.setY(Stage.WYSOKOSC - 2*player.getHeight());
-	player.setVx(5);
 }
 public void paintWorld() {
 	Graphics2D g = (Graphics2D)strategia.getDrawGraphics();
@@ -66,16 +80,47 @@ public void paintWorld() {
 		g.drawString("--- fps",0,Stage.WYSOKOSC-50);
 		strategia.show();
 }
+
+
+public void addActor(Actor a) {
+	actors. add(a);
+}
 public void updateWorld() {
-	for (int i = 0; i < actors.size(); i++) {
-		Actor m = (Actor)actors.get(i);
-		m.act();
+	int i = 0;
+	while (i < actors.size()) {
+		Actor m = (Actor)actors. get(i);
+		if (m. isMarkedForRemoval()) {
+			actors. remove(i);
+}
+		else {
+			m. act();
+			i++;
+		}
 	}
-	player.act();
+	player. act();
 }
 public SpriteCache getSpriteCache() {
 	return spriteCache;
 }
+public void checkCollisions() {
+	Rectangle playerBounds = player. getBounds();
+	for (int i = 0; i < actors. size(); i++) {
+		Actor a1 = (Actor)actors. get(i);
+		Rectangle r1 = a1. getBounds();
+		if (r1. intersects(playerBounds)) {
+		player. collision(a1);
+		a1. collision(player);
+		}
+		for (int j = i+1; j < actors.size(); j++) {
+		Actor a2 = (Actor)actors. get(j);
+		Rectangle r2 = a2. getBounds();
+		if (r1. intersects(r2)) {
+		a1. collision(a2);
+		a2. collision(a1);
+		}
+		}
+		}
+		}
 public void game() {
 	usedTime=1000;
 	initWorld();
@@ -83,6 +128,7 @@ public void game() {
 	while (isVisible()) {
 		long startTime = System.currentTimeMillis();
 		updateWorld();
+		checkCollisions();
 		paintWorld();
 		usedTime = System.currentTimeMillis()-startTime;
 		try {

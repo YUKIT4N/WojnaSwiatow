@@ -1,5 +1,6 @@
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
 
 public class Actor {
 		protected int x,y;
@@ -11,6 +12,16 @@ public class Actor {
 		protected String[] spriteNames;
 		protected int frameSpeed;
 		protected int t;
+		protected boolean markedForRemoval;
+		
+public void remove() {
+		markedForRemoval = true;
+}
+
+public boolean isMarkedForRemoval() {
+		return markedForRemoval;
+}
+		
 public Actor(Stage stage) {
 	this.stage = stage;
 	spriteCache = stage.getSpriteCache();
@@ -18,6 +29,7 @@ public Actor(Stage stage) {
 	frameSpeed = 1;
 	t=0;
 }
+
 public void paint(Graphics2D g){
 		//g.drawImage( spriteCache.getSprite(spriteNames), x,y, stage );
 		g.drawImage( spriteCache.getSprite(spriteNames[currentFrame]), x,y, stage );
@@ -28,6 +40,11 @@ public void setX(int i) { x = i;}
 public int getY() { return y; }
 
 public void setY(int i) {y = i;}
+
+public Rectangle getBounds() {
+return new Rectangle(x,y,width, height);
+}
+public void collision(Actor a){}
 
 public void setSpriteNames(String[] names) {
 	spriteNames = names;				
