@@ -17,8 +17,10 @@ public void act() {
 	
 	public void setVx(int i) {vx = i; }
 	
-	public void collision(Actor a) {
-		if (a instanceof Bullet || a instanceof Bomb)
-		remove();
-		}
+public void collision(Actor a) {
+	if (a instanceof Bullet || a instanceof Bomb){
+	remove();
+	stage. getPlayer(). addScore(20);
+	}
+}
 }

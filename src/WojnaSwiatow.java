@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.Rectangle;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
 
 public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	public long usedTime;
@@ -19,6 +21,7 @@ public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	private SpriteCache spriteCache;
 	private ArrayList actors;
 	private Player player;
+	public Player getPlayer() { return player;}
 public WojnaSwiatow() {
 	spriteCache = new SpriteCache();
 	JFrame okno = new JFrame(".: Wojna Swiatow :.");
@@ -65,20 +68,16 @@ public void initWorld() {
 	player.setY(Stage.WYSOKOSC - 2*player.getHeight());
 }
 public void paintWorld() {
-	Graphics2D g = (Graphics2D)strategia.getDrawGraphics();
-	g.setColor(Color.black);
-	g.fillRect(0,0,getWidth(),getHeight());
+	Graphics2D g = (Graphics2D)strategia. getDrawGraphics();
+	g. setColor(Color.black);
+	g. fillRect(0,0, getWidth(), getHeight());
 	for (int i = 0; i < actors.size(); i++) {
-		Actor m = (Actor)actors.get(i);
-		m.paint(g);
+		Actor m = (Actor)actors. get(i);
+		m. paint(g);
 	}
-	player.paint(g);
-	g.setColor(Color.white);
-	if (usedTime > 0)
-		g.drawString(String.valueOf(1000/usedTime)+" fps",0,Stage.WYSOKOSC-50);
-	else
-		g.drawString("--- fps",0,Stage.WYSOKOSC-50);
-		strategia.show();
+	player. paint(g);
+	paintStatus(g);
+	strategia. show();
 }
 
 
@@ -141,5 +140,47 @@ public static void main(String[] args) {
 			WojnaSwiatow inv = new WojnaSwiatow();
 			inv.game();
 		}
+
+public void paintShields(Graphics2D g) {
+	g. setPaint(Color.red);
+	g. fillRect(280,Stage.WYSOKOSC_GRY,Player.MAX_SHIELDS,30);
+	g. setPaint(Color.blue);
+	g. fillRect(280+Player.MAX_SHIELDS-player. getShields(),Stage.WYSOKOSC_GRY,player.getShields(),30);
+	g. setFont(new Font("Arial",Font.BOLD,20));
+	g. setPaint(Color.green);
+	g. drawString("Shields",170,Stage.WYSOKOSC_GRY+20);
+}
+
+public void paintScore(Graphics2D g) {
+	g. setFont(new Font("Arial",Font.BOLD,20));
+	g. setPaint(Color.green);
+	g. drawString("Score:",20,Stage.WYSOKOSC_GRY + 20);
+	g. setPaint(Color.red);
+	g. drawString(player. getScore()+"",100,Stage.WYSOKOSC_GRY + 20);
+}
+
+public void paintAmmo(Graphics2D g) {
+	int xBase = 280+Player.MAX_SHIELDS+10;
+	for (int i = 0; i < player.getClusterBombs();i++) {
+		BufferedImage bomb = spriteCache. getSprite("UL.png");
+		g. drawImage( bomb ,xBase+i*bomb. getWidth(),Stage.WYSOKOSC_GRY, this);
+	}
+}
+
+public void paintfps(Graphics2D g) {
+	g. setFont( new Font("Arial",Font.BOLD,12));
+	g. setColor(Color.white);
+	if (usedTime > 0)
+		g. drawString(String. valueOf(1000/usedTime)+" fps",Stage.SZEROKOSC-50,Stage.WYSOKOSC_GRY);
+	else
+		g. drawString("--- fps",Stage.WIDTH-50,Stage.WYSOKOSC_GRY);
+}
+
+public void paintStatus(Graphics2D g) {
+	paintScore(g);
+	paintShields(g);
+	paintAmmo(g);
+	paintfps(g);
+}
 }
 //hello
