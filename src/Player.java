@@ -10,12 +10,13 @@ public class Player extends Actor {
 	public static final int MAX_SHIELDS = 200;
 	public static final int MAX_BOMBS = 5;
 	private int score;
-	private int shields;
+	private int shields= MAX_SHIELDS;
 	public int getScore() { return score; }
 	public void setScore(int i) { score = i; }
 	public void addScore(int i) { score += i; }
 	public int getShields() { return shields; }
 	public void setShields(int i) { shields = i; }
+	public void addShields(int i) { shields += i; }
 	public int getClusterBombs() { return clusterBombs; }
 	public void setClusterBombs(int i) { clusterBombs = i; }
 	public Player(Stage stage) {
@@ -64,6 +65,20 @@ public void fire() {
 	stage. addActor(b);
 }
 
+public void collision(Actor a) {
+	if (a instanceof Monster ) {
+		a. remove();
+		addScore(40);
+		addShields(-40);
+	}
+	if (a instanceof Laser ) {
+		a. remove();
+		addShields(-10);
+	}
+		if (getShields() < 0)
+			stage. gameOver();
+	}
+
 public void fireCluster() {
 	if (clusterBombs == 0)
 		return;
@@ -90,6 +105,6 @@ public void keyPressed(KeyEvent e) {
 	
 	}
 	updateSpeed();
-	shields = MAX_SHIELDS;
+	
 }
 }

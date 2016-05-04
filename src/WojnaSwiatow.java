@@ -14,13 +14,18 @@ import java.awt.event.KeyEvent;
 import java.awt.Rectangle;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.awt.TexturePaint;
 
 public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	public long usedTime;
+	public void gameOver() { gameEnded = true;}
+	private boolean gameEnded=false;
 	public BufferStrategy strategia;
 	private SpriteCache spriteCache;
 	private ArrayList actors;
 	private Player player;
+	private BufferedImage ocean;
+	private int t;
 	public Player getPlayer() { return player;}
 public WojnaSwiatow() {
 	spriteCache = new SpriteCache();
@@ -69,7 +74,8 @@ public void initWorld() {
 }
 public void paintWorld() {
 	Graphics2D g = (Graphics2D)strategia. getDrawGraphics();
-	g. setColor(Color.black);
+	ocean = spriteCache. getSprite("heimer.jpg");
+	g. setPaint(new TexturePaint(ocean, new Rectangle(0,t,ocean. getWidth(),ocean.getHeight())));
 	g. fillRect(0,0, getWidth(), getHeight());
 	for (int i = 0; i < actors.size(); i++) {
 		Actor m = (Actor)actors. get(i);
@@ -122,24 +128,35 @@ public void checkCollisions() {
 		}
 public void game() {
 	usedTime=1000;
+	t = 0;
 	initWorld();
 
-	while (isVisible()) {
+	while (isVisible() && !gameEnded) {
+		t++;
 		long startTime = System.currentTimeMillis();
 		updateWorld();
 		checkCollisions();
 		paintWorld();
 		usedTime = System.currentTimeMillis()-startTime;
 		try {
-			Thread.sleep(Stage.SZYBKOSC);
+			Thread.sleep(20);
 		} 
 		catch (InterruptedException e) {}
 	}
+	paintGameOver();
 }
 public static void main(String[] args) {
 			WojnaSwiatow inv = new WojnaSwiatow();
 			inv.game();
-		}
+}
+
+public void paintGameOver() {
+	Graphics2D g = (Graphics2D)strategia. getDrawGraphics();
+	g. setColor(Color.white);
+	g. setFont(new Font("Arial",Font.BOLD,20));
+	g. drawString("GAME OVER",Stage.SZEROKOSC/2-50,Stage.WYSOKOSC/2) ;
+	strategia. show();
+}
 
 public void paintShields(Graphics2D g) {
 	g. setPaint(Color.red);
