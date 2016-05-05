@@ -74,7 +74,7 @@ public void initWorld() {
 }
 public void paintWorld() {
 	Graphics2D g = (Graphics2D)strategia. getDrawGraphics();
-	ocean = spriteCache. getSprite("heimer.jpg");
+	ocean = spriteCache. getSprite("blue.jpg");
 	g. setPaint(new TexturePaint(ocean, new Rectangle(0,t,ocean. getWidth(),ocean.getHeight())));
 	g. fillRect(0,0, getWidth(), getHeight());
 	for (int i = 0; i < actors.size(); i++) {
@@ -139,7 +139,7 @@ public void game() {
 		paintWorld();
 		usedTime = System.currentTimeMillis()-startTime;
 		try {
-			Thread.sleep(20);
+			Thread.sleep(10);
 		} 
 		catch (InterruptedException e) {}
 	}
