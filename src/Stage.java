@@ -8,5 +8,6 @@ public interface Stage extends ImageObserver {
 	public SpriteCache getSpriteCache();
 	public void gameOver();
 	public void addActor(Actor a);
+	public SoundCache getSoundCache();
 	public Player getPlayer();
 }

@@ -12,6 +12,7 @@ public void fire() {
 	m. setX(x+getWidth()/2);
 	m. setY(y + getHeight());
 	stage. addActor(m);
+	stage. getSoundCache(). playSound("photon.wav");
 }
 public void act() {
 	super. act();
@@ -37,6 +38,7 @@ public void spawn() {
 public void collision(Actor a) {
 	if (a instanceof Bullet || a instanceof Bomb){
 	remove();
+	//stage. getSoundCache(). playSound("explosion.wav");
 	spawn();
 	stage. getPlayer(). addScore(20);
 	}

@@ -20,6 +20,7 @@ public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	public long usedTime;
 	public void gameOver() { gameEnded = true;}
 	private boolean gameEnded=false;
+	private SoundCache soundCache;
 	public BufferStrategy strategia;
 	private SpriteCache spriteCache;
 	private ArrayList actors;
@@ -29,6 +30,7 @@ public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	public Player getPlayer() { return player;}
 public WojnaSwiatow() {
 	spriteCache = new SpriteCache();
+	soundCache = new SoundCache();
 	JFrame okno = new JFrame(".: Wojna Swiatow :.");
 	JPanel panel = (JPanel)okno.getContentPane();
 	setBounds(0,0,Stage.SZEROKOSC,Stage.WYSOKOSC);
@@ -47,6 +49,10 @@ public WojnaSwiatow() {
 	strategia = getBufferStrategy();
 	requestFocus();
 	addKeyListener(this);
+}
+
+public SoundCache getSoundCache() {
+return soundCache;
 }
 
 public void keyPressed(KeyEvent e) {

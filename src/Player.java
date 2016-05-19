@@ -63,6 +63,7 @@ public void fire() {
 	b. setX(x);
 	b. setY(y - b. getHeight());
 	stage. addActor(b);
+	stage. getSoundCache(). playSound("missile.wav");
 }
 
 public void collision(Actor a) {
