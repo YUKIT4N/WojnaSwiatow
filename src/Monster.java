@@ -30,7 +30,7 @@ public void spawn() {
 	Monster m = new Monster(stage);
 	m. setX( (int)(Math. random()*Stage.SZEROKOSC) );
 	m. setY( (int)(Math. random()*Stage.WYSOKOSC_GRY/2) );
-	m. setVx( (int)(Math. random()*15-10)+1);
+	m. setVx( (int)(Math. random()*10-10)+1);
 	stage. addActor(m);
 }
 	

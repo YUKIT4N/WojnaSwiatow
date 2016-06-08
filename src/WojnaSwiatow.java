@@ -50,6 +50,7 @@ public WojnaSwiatow() {
 	strategia = getBufferStrategy();
 	requestFocus();
 	addKeyListener(this);
+	setIgnoreRepaint(true);
 }
 
 public void keyPressed(KeyEvent e) {
@@ -74,14 +75,13 @@ public void initWorld() {
 	player = new Player(this);
 	player.setX(Stage.SZEROKOSC/2);
 	player.setY(Stage.WYSOKOSC - 2*player.getHeight());
-	backgroundTile = spriteCache. getSprite("blue.jpg");
+	backgroundTile = spriteCache. getSprite("blue1.jpg");
 	background = spriteCache. createCompatible(
 	Stage.SZEROKOSC,
 	Stage.WYSOKOSC+backgroundTile. getHeight(),Transparency.OPAQUE);
 	Graphics2D g = (Graphics2D)background. getGraphics();
 	g.setPaint( new TexturePaint( backgroundTile,
-	new
-	Rectangle(0,0,backgroundTile. getWidth(),backgroundTile. getHeight())));
+	new Rectangle(0,0,backgroundTile. getWidth(),backgroundTile. getHeight())));
 	g. fillRect(0,0,background. getWidth(),background. getHeight());
 	backgroundY = backgroundTile. getHeight();
 }
@@ -152,10 +152,9 @@ public void game() {
 		checkCollisions();
 		paintWorld();
 		usedTime = System.currentTimeMillis()-startTime;
-		try {
-			Thread.sleep(10);
-		} 
-		catch (InterruptedException e) {}
+		do {
+			Thread. yield();
+			} while (System.currentTimeMillis() -startTime< 17);
 	}
 	paintGameOver();
 }
