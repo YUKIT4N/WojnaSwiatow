@@ -12,7 +12,6 @@ public void fire() {
 	m. setX(x+getWidth()/2);
 	m. setY(y + getHeight());
 	stage. addActor(m);
-	stage. getSoundCache(). playSound("photon.wav");
 }
 public void act() {
 	super. act();
@@ -31,14 +30,13 @@ public void spawn() {
 	Monster m = new Monster(stage);
 	m. setX( (int)(Math. random()*Stage.SZEROKOSC) );
 	m. setY( (int)(Math. random()*Stage.WYSOKOSC_GRY/2) );
-	m. setVx( (int)(Math. random()*20-10)+1);
+	m. setVx( (int)(Math. random()*15-10)+1);
 	stage. addActor(m);
 }
 	
 public void collision(Actor a) {
 	if (a instanceof Bullet || a instanceof Bomb){
 	remove();
-	//stage. getSoundCache(). playSound("explosion.wav");
 	spawn();
 	stage. getPlayer(). addScore(20);
 	}

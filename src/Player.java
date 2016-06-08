@@ -21,7 +21,7 @@ public class Player extends Actor {
 	public void setClusterBombs(int i) { clusterBombs = i; }
 	public Player(Stage stage) {
 		super(stage);
-		setSpriteNames( new String[] {"statel0.png","statel9.png"});
+		setSpriteNames( new String[] {"latam.png","latam1.png"});
 		setFrameSpeed(25);
 	}
 public void act() {
@@ -63,7 +63,6 @@ public void fire() {
 	b. setX(x);
 	b. setY(y - b. getHeight());
 	stage. addActor(b);
-	stage. getSoundCache(). playSound("missile.wav");
 }
 
 public void collision(Actor a) {

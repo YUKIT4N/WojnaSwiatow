@@ -2,7 +2,7 @@ public class Laser extends Actor {
 	protected static final int BULLET_SPEED=3;
 public Laser(Stage stage) {
 	super(stage);
-	setSpriteNames( new String[] {"D.png","DL.png","DR.png"});
+	setSpriteNames( new String[] {"p³atek1.png","p³atek2.png","p³atek3.png","p³atek4.png"});
 	setFrameSpeed(10);
 }
 public void act() {

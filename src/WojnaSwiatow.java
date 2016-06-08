@@ -15,12 +15,14 @@ import java.awt.Rectangle;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.awt.TexturePaint;
+import java.awt.Transparency;
 
 public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	public long usedTime;
 	public void gameOver() { gameEnded = true;}
 	private boolean gameEnded=false;
-	private SoundCache soundCache;
+	private BufferedImage background, backgroundTile;
+	private int backgroundY;
 	public BufferStrategy strategia;
 	private SpriteCache spriteCache;
 	private ArrayList actors;
@@ -30,7 +32,6 @@ public class WojnaSwiatow extends Canvas implements Stage, KeyListener {
 	public Player getPlayer() { return player;}
 public WojnaSwiatow() {
 	spriteCache = new SpriteCache();
-	soundCache = new SoundCache();
 	JFrame okno = new JFrame(".: Wojna Swiatow :.");
 	JPanel panel = (JPanel)okno.getContentPane();
 	setBounds(0,0,Stage.SZEROKOSC,Stage.WYSOKOSC);
@@ -49,10 +50,6 @@ public WojnaSwiatow() {
 	strategia = getBufferStrategy();
 	requestFocus();
 	addKeyListener(this);
-}
-
-public SoundCache getSoundCache() {
-return soundCache;
 }
 
 public void keyPressed(KeyEvent e) {
@@ -77,12 +74,22 @@ public void initWorld() {
 	player = new Player(this);
 	player.setX(Stage.SZEROKOSC/2);
 	player.setY(Stage.WYSOKOSC - 2*player.getHeight());
+	backgroundTile = spriteCache. getSprite("blue.jpg");
+	background = spriteCache. createCompatible(
+	Stage.SZEROKOSC,
+	Stage.WYSOKOSC+backgroundTile. getHeight(),Transparency.OPAQUE);
+	Graphics2D g = (Graphics2D)background. getGraphics();
+	g.setPaint( new TexturePaint( backgroundTile,
+	new
+	Rectangle(0,0,backgroundTile. getWidth(),backgroundTile. getHeight())));
+	g. fillRect(0,0,background. getWidth(),background. getHeight());
+	backgroundY = backgroundTile. getHeight();
 }
 public void paintWorld() {
 	Graphics2D g = (Graphics2D)strategia. getDrawGraphics();
-	ocean = spriteCache. getSprite("blue.jpg");
-	g. setPaint(new TexturePaint(ocean, new Rectangle(0,t,ocean. getWidth(),ocean.getHeight())));
-	g. fillRect(0,0, getWidth(), getHeight());
+	g. drawImage( background,
+			0,0,Stage.SZEROKOSC,Stage.WYSOKOSC,
+			0,backgroundY,Stage.SZEROKOSC,backgroundY+Stage.WYSOKOSC, this);
 	for (int i = 0; i < actors.size(); i++) {
 		Actor m = (Actor)actors. get(i);
 		m. paint(g);
@@ -134,12 +141,13 @@ public void checkCollisions() {
 		}
 public void game() {
 	usedTime=1000;
-	t = 0;
 	initWorld();
 
 	while (isVisible() && !gameEnded) {
-		t++;
-		long startTime = System.currentTimeMillis();
+		long startTime = System.currentTimeMillis();	
+		backgroundY--;
+		if (backgroundY < 0)
+		backgroundY = backgroundTile. getHeight();
 		updateWorld();
 		checkCollisions();
 		paintWorld();
