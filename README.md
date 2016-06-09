@@ -9,6 +9,6 @@
 5.  Zaprojektowanie strzelania
 6.  Dodanie efektu specjalnego do uzbrojenia gracza
 7.  Utworzenie statystyk dla gracza
-8.  Dopracowanie szczegółów, ewentualne dodanie dźwięków do gry
+8.  Dopracowanie szczegółów
 9.  Testowanie gry i naprawianie błędów
 
